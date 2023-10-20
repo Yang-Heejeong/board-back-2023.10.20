@@ -14,7 +14,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 // 제어의 역전으로 쓰기 위해 @Component 사용
 @Component
 public class JwtProvider {
-
+    
     @Value("${secret-key}")
     private String secretKey;
 
@@ -24,15 +24,14 @@ public class JwtProvider {
         String jwt = Jwts.builder()
                         .signWith(SignatureAlgorithm.HS256, secretKey)
                         .setSubject(email).setIssuedAt(new Date()).setExpiration(expiration)
-                        . compact();
+                        .compact();
 
         return jwt;
     }
 
     public String validate(String jwt) {
-        
-        String email = null;
 
+        String email = null;
         try {
 
             Claims claims = Jwts.parser()
@@ -48,6 +47,7 @@ public class JwtProvider {
         }
 
         return email;
+
     }
-    
+
 }

@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
+        
         try {
 
             String token = parseBearerToken(request);
@@ -45,9 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            // authenticationToken 이메일 토큰 발행
-            AbstractAuthenticationToken authenticationToken 
-                                                        // (유저네임, 비밀번호, 권한내용)
+            AbstractAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(email, null, AuthorityUtils.NO_AUTHORITIES);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -59,19 +57,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             exception.printStackTrace();
         }
 
-        // 다음 필터로 넘김
         filterChain.doFilter(request, response);
-        
+
     }
 
     private String parseBearerToken(HttpServletRequest request) {
-        
+
         String authorization = request.getHeader("Authorization");
 
         boolean hasAuthorization = StringUtils.hasText(authorization);
         if (!hasAuthorization) return null;
 
-        boolean isBearer = authorization.startsWith("Bearer");
+        boolean isBearer = authorization.startsWith("Bearer ");
         if (!isBearer) return null;
 
         String token = authorization.substring(7);

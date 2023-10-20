@@ -37,8 +37,9 @@ public class WebSecurityConfig {
             .httpBasic().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
-            .antMatchers("/", "/api/v1/auth/**", "/api/v1/search/**").permitAll()
+            .antMatchers("/", "/file/**", "/api/v1/auth/**", "/api/v1/search/**").permitAll()
             .antMatchers(HttpMethod.GET, "/api/v1/board/**", "/api/v1/user/*", "/file/image/*").permitAll()
+            .antMatchers(HttpMethod.PATCH, "/api/v1/board/increase-view-count/*").permitAll()
             .anyRequest().authenticated().and()
             .exceptionHandling().authenticationEntryPoint(new FailedAuthenticationEntryPoint());
 
@@ -50,7 +51,7 @@ public class WebSecurityConfig {
 
 }
 
-class FailedAuthenticationEntryPoint implements AuthenticationEntryPoint {
+class FailedAuthenticationEntryPoint implements AuthenticationEntryPoint { 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,

@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("")
 public class MainController {
-
+    
     @GetMapping("")
     public ResponseEntity<String> serverCheck() {
         return ResponseEntity.status(HttpStatus.OK).body("Server On...");
     }
-    
+
 }
